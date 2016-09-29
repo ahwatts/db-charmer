@@ -4,7 +4,7 @@ require "bundler"
 begin
   require "docker"
 rescue LoadError
-  puts "Docker lib not available. You won't be able to manage the test database without it."
+  puts "\"docker-api\" gem not available. You won't be able to manage the test database without it."
 end
 
 namespace "bundler" do
@@ -103,7 +103,7 @@ end
 namespace :test_db do
   desc "Rebuild the test database."
   task :recreate => "docker:db_container:start" do
-    docker_host = ENV["DOCKER_HOST"] =~ /tcp:\/\/(.*):\d+/ && $1
+    docker_host = (ENV["DOCKER_HOST"] =~ /tcp:\/\/(.*):\d+/ && $1) || "127.0.0.1"
     create_database_sql = File.expand_path("../test-project/db/create_databases.sql", __FILE__)
     run_command("mysql -v -h #{docker_host} -P #{DB_PORT} -u root --password=#{DB_PASSWORD} < #{create_database_sql}")
 

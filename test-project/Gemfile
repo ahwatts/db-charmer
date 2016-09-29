@@ -26,7 +26,7 @@ version ||=
   end
 version ||= '4-0-stable'
 
-gem 'mysql2', '~> 0.3.18'
+gem 'mysql2', '~> 0.4.4'
 
 # Different mysql gem versions for different rails & ruby
 if RUBY_VERSION >= "2.2.0" && version.to_i >= 4
